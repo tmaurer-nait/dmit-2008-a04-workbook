@@ -12,3 +12,18 @@ replace the instances that have "THIS FORMAT HERE" with the astronautData.
     <p class="mb-1">ASTRONAUT BIO HERE </p>
 </li>
 */
+
+// First parameter is the list of astronautData, second is the element
+// To append the list item to
+const renderAstronautListItem = (astronautData, listElement) => {
+  const listItemHTML =
+    '<li href="#" class="list-group-item list-group-item-action">' +
+    '<div class="d-flex w-100 justify-content-between">' +
+    ` <img src=${astronautData.profile_image_thumbnail} class="rounded float-start" alt=""">` +
+    `<h5 class="mb-1">${astronautData.name} (${astronautData.status.name})</h5>` +
+    `<small class="float-end">born ${astronautData.date_of_birth} </small>` +
+    "</div>" +
+    `<small> ${astronautData.nationality} (${astronautData.agency.name})</small>` +
+    `<p class="mb-1">${astronautData.bio}</p>` +
+    "</li>";
+};
