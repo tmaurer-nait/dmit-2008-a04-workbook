@@ -13,8 +13,11 @@ replace the instances that have "THIS FORMAT HERE" with the astronautData.
 </li>
 */
 
-// First parameter is the list of astronautData, second is the element
-// To append the list item to
+/**
+ * Takes the astronautData and appends a visual element to the listElement
+ * @param {Object} astronautData - The data of the astronaut
+ * @param {Element} listElement - The element to append to
+ */
 const renderAstronautListItem = (astronautData, listElement) => {
   const listItemHTML =
     '<li href="#" class="list-group-item list-group-item-action">' +
@@ -26,4 +29,8 @@ const renderAstronautListItem = (astronautData, listElement) => {
     `<small> ${astronautData.nationality} (${astronautData.agency.name})</small>` +
     `<p class="mb-1">${astronautData.bio}</p>` +
     "</li>";
+
+  listElement.innerHTML += listItemHTML;
 };
+
+export { renderAstronautListItem };
