@@ -9,8 +9,8 @@
 const Hello = (props) => {
   return (
     <div>
-      {props.children}
       <p>Hello {props.title}, nice to meet you!</p>
+      {props.children}
       <p>Goodbye {props.name}, it was nice knowing you</p>
     </div>
   );
