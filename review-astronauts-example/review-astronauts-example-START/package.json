@@ -2,7 +2,6 @@
   "name": "review-astronauts-example",
   "version": "1.0.0",
   "description": "Class 3 example project",
-  "main": "index.js",
   "source": "index.html",
   "scripts": {
     "start": "parcel",
