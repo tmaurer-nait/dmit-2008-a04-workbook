@@ -8,6 +8,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid2 from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
 
 import { useState } from "react";
 
@@ -28,6 +32,9 @@ export default function Home() {
     setAllTodos(newAllTodos);
     setTodoText("");
   };
+
+  // Condition being used for conditional rendering example
+  const shouldShowMessage = true;
 
   return (
     <>
@@ -58,6 +65,25 @@ export default function Home() {
             <Grid2 sx={{ backgroundColor: "white" }}>
               The current input text value is: {todoText}
             </Grid2>
+            <Grid2>
+              <List>
+                {allTodos.map((todoItem, index) => {
+                  return (
+                    <ListItem key={index}>
+                      <ListItemText>
+                        <Typography variant="p">{todoItem}</Typography>
+                      </ListItemText>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Grid2>
+            {/** Below is just a hidden message conditional rendering example */}
+            {shouldShowMessage ? (
+              <p>This is a hidden message</p>
+            ) : (
+              <p>This is what shows instead of the hidden message</p>
+            )}
           </Container>
         </main>
       </div>
