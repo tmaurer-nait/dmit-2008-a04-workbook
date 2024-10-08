@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -20,13 +21,42 @@ import ListItemText from "@mui/material/ListItemText";
 export default function Home() {
   const [search, setSearch] = useState("");
   const [year, setYear] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [movies, setMovies] = useState(MOVIE_LIST);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`year: ${year}`);
     console.log(`search: ${search}`);
+    validateSearch();
     filterMovies();
+  };
+
+  const isNumber = (value) => {
+    return !isNaN(value);
+  };
+
+  const validateSearch = () => {
+    console.log("validate search");
+    console.log(isNumber(year));
+
+    // if the year is empty
+    if (year.trim().length === 0) {
+      // no error message
+      setErrorMessage("");
+      return;
+    }
+
+    // if the year isn't valid
+    if (!isNumber(year) || year.trim().length !== 4) {
+      // error message "not a valid year"
+      setErrorMessage(`${year} is not a valid year`);
+      return;
+    }
+
+    // if valid year
+    // no error message
+    setErrorMessage("");
   };
 
   const filterMovies = () => {
@@ -72,6 +102,7 @@ export default function Home() {
 
       <main>
         <Container>
+          <AcUnitIcon />
           <Typography
             variant="h2"
             component="h2"
@@ -79,6 +110,9 @@ export default function Home() {
           >
             Movies
           </Typography>
+          {errorMessage !== "" && (
+            <Alert severity="error">{errorMessage}</Alert>
+          )}
           <form style={{ width: "100%" }} onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -115,6 +149,13 @@ export default function Home() {
               </Grid>
             </Grid>
           </form>
+          {movies.length === 0 ? (
+            <Typography>No Results Found</Typography>
+          ) : (
+            <Typography>
+              {movies.length} Result{movies.length > 1 && "s"} Found
+            </Typography>
+          )}
           <List sx={{ width: `100%` }}>
             {movies.map((movieData, index) => {
               return (
