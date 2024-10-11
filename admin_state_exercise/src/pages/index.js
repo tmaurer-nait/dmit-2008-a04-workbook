@@ -4,6 +4,10 @@ import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
 
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+
+import { useState } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,6 +21,13 @@ const geistMono = localFont({
 });
 
 export default function Home() {
+  const [passwordInput, setPasswordInput] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(passwordInput);
+  };
+
   return (
     <>
       <Head>
@@ -29,7 +40,23 @@ export default function Home() {
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <main className={styles.main}>
-          <TextField label="password" variant="outlined" type="password" />
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={1}>
+              <TextField
+                label="password"
+                variant="outlined"
+                type="password"
+                value={passwordInput}
+                onChange={(event) => {
+                  console.log(event.target.value);
+                  setPasswordInput(event.target.value);
+                }}
+              />
+              <Button type="submit" variant="contained">
+                Submit
+              </Button>
+            </Stack>
+          </form>
         </main>
       </div>
     </>
