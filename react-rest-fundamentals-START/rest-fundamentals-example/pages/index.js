@@ -13,11 +13,35 @@ import Typography from "@mui/material/Typography";
 
 import { useState } from "react";
 
+const RANDOM_QUOTE_URL = "https://api.kanye.rest/";
+
 export default function Home() {
   const [quoteData, setQuoteData] = useState({
     quote: "quote here",
     author: "author here",
   });
+
+  const clickHandler = () => {
+    // FOR TESTING PURPOSES
+    // const newQuoteData = {
+    //   quote: "Hi my name is Tom",
+    //   author: "Tom Maurer",
+    // };
+    // setQuoteData(newQuoteData);
+    fetch(RANDOM_QUOTE_URL)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // Create new quote data object
+        const newQuoteData = {
+          quote: data.quote,
+          author: "Kanye West",
+        };
+        // Set state for quote data
+        setQuoteData(newQuoteData);
+      });
+  };
 
   return (
     <div>
@@ -64,7 +88,9 @@ export default function Home() {
               {quoteData.author}
             </Typography>
             <Box display="flex" justifyContent="center">
-              <Button variant="contained">Get New Quote</Button>
+              <Button variant="contained" onClick={clickHandler}>
+                Get New Quote
+              </Button>
             </Box>
           </Box>
         </Container>
