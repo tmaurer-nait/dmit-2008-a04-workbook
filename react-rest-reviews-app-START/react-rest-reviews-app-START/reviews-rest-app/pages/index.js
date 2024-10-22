@@ -27,6 +27,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AdaptationReviewCard from "../components/AdaptationReviewCard";
 
+import { getReviews, postReview } from "../utils/api/reviews";
+
 import { useState } from "react";
 
 export default function Home() {
@@ -38,34 +40,18 @@ export default function Home() {
   // Function to be called when button is clicked to load reviews
   const loadAllReviews = () => {
     // fetch all reviews
-    fetch("http://localhost:5000/reviews")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // Set state to all fetched reviews
-        let newReviews = data;
-        setReviews(newReviews);
-      });
+    getReviews().then((data) => {
+      // Set state to all fetched reviews
+      setReviews(data);
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:5000/reviews", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      // Convert the JS object into JSON
-      // Use shorthand for properties
-      body: JSON.stringify({ title, comment, rating }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        let newReview = data;
-        // Add the new object to the currently showing reviews
-        setReviews([newReview, ...reviews]);
-      });
+    postReview({ title, comment, rating }).then((data) => {
+      // Add the new object to the currently showing reviews
+      setReviews([data, ...reviews]);
+    });
   };
 
   return (
