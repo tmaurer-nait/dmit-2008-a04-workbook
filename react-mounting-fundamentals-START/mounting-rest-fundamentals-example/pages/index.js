@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Head from "next/head";
 import Image from "next/image";
@@ -16,13 +16,30 @@ import Typography from "@mui/material/Typography";
 import { getQuote } from "../utils/api/quotes";
 
 export default function Home() {
-  const RANDOM_QUOTE_URL = "https://api.kanye.rest/";
-  const [quoteData, setQuoteData] = useState({
-    quote: "Quote here.",
-    author: "Author here",
-  });
+  const DEFAULT_QUOTE = "Quote here";
+  const DEFAULT_AUTHOR = "Author here";
 
-  const handleClick = () => {
+  const [quoteData, setQuoteData] = useState({
+    quote: DEFAULT_QUOTE,
+    author: DEFAULT_AUTHOR,
+  });
+  const [numberOfQuotes, setNumberOfQuotes] = useState(0);
+
+  useEffect(() => {
+    console.log("Home component Mounted");
+    changeQuote();
+  }, []); // Empty array because just doing it on mount
+
+  useEffect(() => {
+    if (
+      quoteData.quote !== DEFAULT_QUOTE &&
+      quoteData.author !== DEFAULT_AUTHOR
+    ) {
+      setNumberOfQuotes(numberOfQuotes + 1);
+    }
+  }, [quoteData]); // State variable in the array to listen to changes
+
+  const changeQuote = () => {
     getQuote().then((data) => {
       setQuoteData({
         quote: data.quote,
@@ -76,9 +93,10 @@ export default function Home() {
               {quoteData.author}
             </Typography>
             <Box display="flex" justifyContent="center">
-              <Button variant="contained" onClick={handleClick}>
+              <Button variant="contained" onClick={changeQuote}>
                 Get New Quote
               </Button>
+              <Typography>You have fetched {numberOfQuotes} quotes</Typography>
             </Box>
           </Box>
         </Container>
