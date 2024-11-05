@@ -13,12 +13,6 @@
       "rating": 10
     },
     {
-      "title": "Game of thrones",
-      "comment": "Books were graphic, show was great until the last 2 seasons",
-      "rating": 9,
-      "id": 3
-    },
-    {
       "title": "fight club",
       "comment": "a great movie and had a great end to the book",
       "rating": "9",
@@ -29,12 +23,6 @@
       "comment": "Haven't seen it yet but the comic books are way too fantastic",
       "rating": "9",
       "id": 5
-    },
-    {
-      "title": "asdfasdf",
-      "comment": "dfasdfasfd",
-      "rating": "3",
-      "id": 6
     }
   ]
 }

@@ -50,15 +50,21 @@ const postReview = ({ title, comment, rating }) => {
     });
 };
 
-const deleteReview = (id) => {
-  return fetch(`${BASE_URL}/reviews/${id}`, { method: "DELETE" })
+const deleteReview = (idToDelete) => {
+  // THE BELOW IS A SNIPPET FOR A GENERAL FETCH REQUEST
+  // return fetch(url, options)
+  //   .then((response) => {
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     // Do something with the data
+  //   });
+  return fetch(`${BASE_URL}/reviews/${idToDelete}`, { method: "DELETE" })
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      // using Promise.resolve here will pass the data we have
-      // fetched here as the returnedData passed when we use the function.
-      // deleteReview(id).then((returnedData)=> { // when used in other places.})
+      // Do something with the data
       return Promise.resolve(data);
     });
 };

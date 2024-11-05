@@ -154,7 +154,7 @@ export default function Home() {
             return (
               <AdaptationReviewCard
                 id={adaptation.id}
-                onDeleteRequested={deleteReview}
+                deleteReviewCalback={deleteReview}
                 key={index}
                 rating={adaptation.rating}
                 title={adaptation.title}
