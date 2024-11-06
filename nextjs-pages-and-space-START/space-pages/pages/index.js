@@ -1,14 +1,24 @@
-import Head from 'next/head'
+import { useState, useEffect } from "react";
 
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
+import Head from "next/head";
 
-import AgencyCard from '@components/AgencyCard';
-import NavBar from '@components/NavBar';
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
+import AgencyCard from "@components/AgencyCard";
+import NavBar from "@components/NavBar";
+
+import { getAgencies } from "@utils/api/agencies";
 
 export default function Home() {
+  const [agenciesData, setAgenciesData] = useState([]);
+
+  useEffect(() => {
+    getAgencies().then((data) => {
+      setAgenciesData(data.results);
+    });
+  }, []);
 
   return (
     <div>
@@ -18,24 +28,33 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-        <NavBar />
+      <NavBar />
 
-        <Container sx={{paddingTop:2}} component="main" maxWidth="xs">
-
-          <Typography variant="h3">
-            Space Agencies
-          </Typography>
-          <Box
-            sx={{
-              marginTop: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-          </Box>
-        </Container>
-
+      <Container sx={{ paddingTop: 2 }} component="main" maxWidth="xs">
+        <Typography variant="h3">Space Agencies</Typography>
+        <Box
+          sx={{
+            marginTop: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {agenciesData.map((agency) => {
+            // return some component
+            return (
+              <AgencyCard
+                key={agency.id}
+                id={agency.id}
+                name={agency.name}
+                description={agency.description}
+                abbreviation={agency.abbrev}
+                imageUrl={agency.image_url}
+              />
+            );
+          })}
+        </Box>
+      </Container>
     </div>
-  )
+  );
 }
