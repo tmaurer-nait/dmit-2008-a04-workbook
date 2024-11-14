@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import Head from "next/head";
 
 import Typography from "@mui/material/Typography";
@@ -11,15 +9,17 @@ import NavBar from "@components/NavBar";
 
 import { getAgencies } from "@utils/api/agencies";
 
-export default function Home() {
-  const [agenciesData, setAgenciesData] = useState([]);
+export async function getServerSideProps() {
+  const agencies = await getAgencies();
 
-  useEffect(() => {
-    getAgencies().then((data) => {
-      setAgenciesData(data.results);
-    });
-  }, []);
+  return {
+    props: {
+      agencies: agencies.results,
+    },
+  };
+}
 
+export default function Home(props) {
   return (
     <div>
       <Head>
@@ -40,7 +40,7 @@ export default function Home() {
             alignItems: "center",
           }}
         >
-          {agenciesData.map((agency) => {
+          {props.agencies.map((agency) => {
             // return some component
             return (
               <AgencyCard

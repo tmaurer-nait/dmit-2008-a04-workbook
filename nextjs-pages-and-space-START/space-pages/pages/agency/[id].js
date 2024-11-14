@@ -13,30 +13,33 @@ import SimpleDetailsCard from "@components/SimpleDetailsCard";
 
 import { getAgency } from "@utils/api/agencies";
 
-export default function Agency() {
-  const [agencyDetails, setAgencyDetails] = useState();
+export async function getServerSideProps(context) {
+  const { id } = context.params;
 
+  const agencyInfo = await getAgency(id);
+
+  return {
+    props: {
+      agencyDetails: agencyInfo,
+    },
+  };
+}
+
+export default function Agency(props) {
   const router = useRouter();
-  const { id } = router.query;
-
-  useEffect(() => {
-    getAgency(id).then((data) => {
-      setAgencyDetails(data);
-    });
-  }, [id]);
 
   return (
     <>
       <NavBar />
-      {!agencyDetails ? (
+      {!props.agencyDetails ? (
         <LoadingCircle />
       ) : (
         <Container sx={{ paddingTop: 2 }}>
           <Grid container>
             <Grid item xs="2">
               <img
-                alt={agencyDetails.name}
-                src={agencyDetails.logo_url}
+                alt={props.agencyDetails.name}
+                src={props.agencyDetails.logo_url}
                 style={{
                   width: `120px`,
                 }}
@@ -44,24 +47,24 @@ export default function Agency() {
             </Grid>
             <Grid item xs="10">
               <Typography variant="h3" gutterBottom>
-                {`${agencyDetails.name} (${agencyDetails.abbrev})`}
+                {`${props.agencyDetails.name} (${props.agencyDetails.abbrev})`}
               </Typography>
             </Grid>
             <Grid item xs="4">
               <Typography variant="h5">Launch Details</Typography>
               <SimpleDetailsCard
                 title={"Total Launches"}
-                description={agencyDetails.total_launch_count}
+                description={props.agencyDetails.total_launch_count}
                 subDescription={""}
               />
               <SimpleDetailsCard
                 title={"Successful Launches"}
-                description={agencyDetails.successful_launches}
+                description={props.agencyDetails.successful_launches}
                 subDescription={""}
               />
               <SimpleDetailsCard
                 title={"Successful Landings"}
-                description={agencyDetails.successful_landings}
+                description={props.agencyDetails.successful_landings}
                 subDescription={""}
               />
             </Grid>
@@ -69,19 +72,19 @@ export default function Agency() {
               <Typography variant="h5">Agency Information</Typography>
               <SimpleDetailsCard
                 title={"Adminastrator"}
-                description={agencyDetails.administrator}
+                description={props.agencyDetails.administrator}
                 subDescription={""}
               />
               <SimpleDetailsCard
                 title={"Space Agency Details"}
-                description={`Founded: ${agencyDetails.founding_year}`}
-                subDescription={agencyDetails.description}
+                description={`Founded: ${props.agencyDetails.founding_year}`}
+                subDescription={props.agencyDetails.description}
               />
             </Grid>
             <Grid item xs={4}>
               <Typography variant="h5">Spacecraft</Typography>
-              {agencyDetails.spacecraft_list &&
-                agencyDetails.spacecraft_list.map((spacecraft) => {
+              {props.agencyDetails.spacecraft_list &&
+                props.agencyDetails.spacecraft_list.map((spacecraft) => {
                   return (
                     <SimpleDetailsCard
                       key={spacecraft.id}
